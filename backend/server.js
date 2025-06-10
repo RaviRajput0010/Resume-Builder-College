@@ -10,7 +10,10 @@ import path from 'path';
 import { fileURLToPath } from 'url';
 
 const app = express()
-app.use(cors())
+app.use(cors({ 
+    origin: "https://resume-builder-college.vercel.app",
+    credentials: true 
+}));
 app.use(express.json())
 
 connectDB()
