@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link rel="icon" href="y.png">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin</title>
+</head>
+<style>
+/* General Styles */
+body, html {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f4;
+    color: #333;
+    overflow: hidden;
+}
+
+.navbar {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: #2c3e50;
+    color: #fff;
+    padding: 15px;
+    position: fixed;
+    z-index: 1;
+}
+
+.navbar .logo {
+    display: flex;
+    align-items: center;
+}
+
+.navbar .logo img {
+    height: 40px;
+    margin-right: 10px;
+}
+
+.navbar ul {
+    list-style: none;
+    display: flex;
+    margin: 0;
+    padding: 0;
+}
+
+.navbar ul li {
+    position: relative;
+    margin: 5px;
+    margin-right: 40px;
+    cursor: pointer;
+    transition: 0.3s;
+    padding: 15px 0;
+}
+
+/* Hover Effect */
+.navbar ul li:hover {
+    color: #1abc9c;
+}
+
+/* Dropdown Menu */
+.dropdown {
+    display: none;
+    position: absolute;
+    top: 50px;
+    left: 0;
+    background: #34495e;
+    box-shadow: 0 8px 16px rgba(0,0,0,0.2);
+    z-index: 1;
+    min-width: 160px;
+    border-radius: 5px;
+}
+
+/* Dropdown Items */
+.dropdown a {
+    display: block;
+    padding: 12px 20px;
+    color: #fff;
+    text-decoration: none;
+    transition: 0.3s;
+}
+
+.dropdown a:hover {
+    background: #1abc9c;
+}
+
+/* Show dropdown on hover */
+.nav-item:hover .dropdown {
+    display: block;
+}
+
+.section {
+    display: none;
+    padding: 40px;
+    background: #fff;
+    margin: 20px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.section h1 {
+    font-size: 28px;
+    color: #2c3e50;
+}
+
+.section p {
+    font-size: 16px;
+    line-height: 1.6;
+}
+
+.section.active {
+    display: block;
+}
+
+footer {
+    text-align: center;
+    padding: 20px;
+    background: #2c3e50;
+    color: #fff;
+}
+
+.mainbody {
+    height: 100vh;
+    width: 100%;
+    padding-top: 70px; /* For navbar spacing */
+    background-color: black;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+}
+
+.overlay {
+    background-color: rgba(0, 0, 0, 0.5); /* Optional dark overlay for better text visibility */
+    color: white;
+    text-align: center;
+    padding: 30px;
+    border-radius: 10px;
+    margin-top: -100px;
+}
+
+/* Bigger Profile Dropdown */
+.profile-dropdown {
+    padding: 20px;
+    text-align: center;
+    width: 100px;
+}
+
+.profile-pic {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    object-fit: cover;
+    margin-bottom: 10px;
+    border: 3px solid #1abc9c;
+}
+
+.admin-name {
+    color: #fff;
+    font-size: 18px;
+    margin: 10px 0;
+}
+
+#btn {
+    margin-top:-12px;
+    height: 30px;
+    width: 100px;
+    display: inline-block;
+    background-color: #e74c3c;
+    color: #fff;
+    text-decoration: none;
+    border-radius: 5px;
+    font-weight: bold;
+    transition: background 0.5s;
+    cursor: pointer;
+}
+
+#btn:hover {
+    background-color: green;
+
+}
+
+.navbar ul li.nav-item:last-child .dropdown {
+    left: auto;
+    right: 0;
+}
+
+.profile-dropdown {
+    min-width: 80px; /* prevents it from being too small */
+    min-height: 50px;
+}
+
+.dropdown   
+{
+    margin-right: -30px;
+}
+
+.mainbody img
+{
+    height: 100px;
+    width: 100px;
+    display: none;
+
+}
+
+.mainbody img.loading-spinner {
+  display: block;
+  animation: spin 2s linear infinite;
+}
+
+
+@keyframes spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+</style>
+<body>
+
+<!-- Navbar -->
+<div class="navbar">
+    <div class="logo">
+        <img src="bird.png"/>
+        <h3>Admin Panel</h3>
+    </div>
+    <ul>
+        <li class="nav-item">Users
+            <div class="dropdown">
+                <a href="user-record.html">View Users</a>
+                <a href="delete-user.html">Delete User</a>
+            </div>
+        </li>
+     
+        <li class="nav-item">Queries
+            <div class="dropdown">
+                <a href="view-query.html">View Queries</a>
+                <a href="delete-query.html">Delete Query</a>
+            </div>
+        </li>
+        <li class="nav-item">Resume
+            <div class="dropdown">
+                <a href="view-resume.html">View Resume</a>
+                <a href="delete-resume.html">Delete Resume</a>
+            </div>
+        </li>
+        <li>
+            <button id="btn" onclick="logout()">Log out</button>
+        </li>
+        <li class="nav-item">Feedback
+        <div class="dropdown">
+            <a href="view-feedback.html">View</a> 
+        </div>
+    </li>
+
+
+        <li class="nav-item">Admin
+            <div class="dropdown profile-dropdown">
+                <img src="admin_profile.png" alt="Admin" class="profile-pic">
+                <p class="admin-name">Ravi Rajput</p>
+            </div>
+        </li>
+       
+    </ul>
+</div>
+
+<div class="mainbody">
+    <div class="overlay">
+      <h1>Welcome to Admin Panel</h1>
+      <p>Manage users, Resumes , and queries here.</p>
+    </div>
+    <img src="loading.png" id="loadingImg" style="display: none;">
+
+  </div
+
+</body>
+<script>
+    function logout() {
+        alert("Logging out,Please wait..");
+        
+
+        // Show and animate the loading image
+        const loadingImg = document.getElementById("loadingImg");
+        loadingImg.style.display = "block";
+        loadingImg.classList.add("loading-spinner");
+    
+        // Clear storage
+        localStorage.clear();
+        sessionStorage.clear();
+    
+        // Clear cookies
+        document.cookie.split(";").forEach(function(c) {
+            document.cookie = c.trim().split("=")[0] + "=;expires=Thu, 01 Jan 1970 00:00:00 UTC;path=/";
+        });
+    
+        // Redirect after short delay
+        setTimeout(() => {
+            window.location.href = "front-page.html";
+        }, 2000); // 2 seconds
+    }
+    </script>
+    
+    
+
+
+</html>

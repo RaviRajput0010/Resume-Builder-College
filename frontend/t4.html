@@ -1,0 +1,275 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    
+    <link rel="icon" type="image/x-icon" href="logo/y.png">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<style>
+ * {
+            padding: 0;
+            margin: 0;
+            box-sizing: border-box;
+          }
+
+        .container 
+        {
+            height: 100%;
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: fixed;
+        }
+
+        .template {
+            height: 100%; 
+            width: 40%;
+            border: 1px solid #000000;  
+            display: flex;  
+            position: relative;        
+        }
+
+        .left
+        {
+            margin-bottom: 0px;
+            height: 100%;
+            width: 65%;
+            padding: 20px;          
+        }
+        .heading
+        {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            font-family: Arial, Helvetica, sans-serif;
+        }
+        .box {
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            gap: 10px;
+            padding: 5px;
+            height: auto;
+            align-self: self-start;
+            flex-wrap: wrap;
+            margin-top: 20px;
+        }
+
+        .box img {
+            width: 20px;
+            height: 20px;
+            object-fit: contain;
+        }
+        
+        .details
+        {
+           display: flex;
+           flex-direction: column;
+           justify-content: space-between;
+        }
+
+        .summary
+        {
+            top: 100px;
+            height: auto;
+            width: 100%;
+            line-height: 1.4;
+            margin-top: 20px;
+        }
+        .experience
+        {
+            margin-top: 20px;
+            line-height: 1.4;
+        }
+
+        .image
+        {
+            height:140px;
+            width:150px ;
+            background-color: aliceblue;
+            margin-top: 10px;
+            border-radius: 50%;
+        }
+
+        h3
+        {
+            text-decoration: underline;
+        }
+        .element
+        {
+            align-items: center; 
+            display: flex;
+            left: -10px;
+            position: relative;
+            height: auto;
+            width: auto;  
+        }
+        .element .box img {
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            object-fit: contain;
+            margin-top: -15px;
+        }
+
+        .element p
+        {
+            margin-left: 20px;
+        }
+
+        .achieve
+        {
+        margin-top: 20px;
+        }
+
+        .right
+        {
+            height: 100%;
+            width: 35%;
+            background-color: rgb(252, 133, 42);
+            display: flex;
+            flex-direction: column;
+            justify-content:flex-start;
+            padding: 20px;
+        }
+        .right .image
+        {    
+            overflow: hidden
+        }
+
+        .element1
+        {
+            display: flex;
+        }
+
+        .skills,.edu
+        {
+            margin-top: 20px;
+
+        }
+
+        .image img
+        {
+            height: 100%;
+            width: 100%;;
+        }
+
+        .summary p
+        {
+            word-wrap: break-word;
+        }
+</style>
+<body>
+    <div class="container" id="container">
+        
+    </div>
+    
+</body>
+<script>
+
+window.onload = () => {
+        // Get email from URL
+        const queryParams = new URLSearchParams(window.location.search);
+        const id = queryParams.get("id");
+
+        if (!id) {
+            alert("No Resume found .");
+            return;
+        }
+
+        // Fetch and render resume by email
+        fetchResume(id);
+    };
+
+    async function fetchResume(id) {
+        try {
+            const res = await fetch('http://localhost:8861/allresume');
+            const data = await res.json();
+
+            const i = data.find(item => item._id === id);
+
+            if (!i) {
+                document.getElementById("container").innerHTML = "<h2>No resume found for this email.</h2>";
+                return;
+            }
+
+         let clutter = ""; 
+    clutter = `<div class="template">
+           <div class="left">
+            <div class="heading">
+                <h1>${i.personalDetails.name } ${i.personalDetails.lastname}</h1>
+                <h3>${i.workExperience.job_description}</h3>
+            </div>
+            <div class="details">
+                <div class="box">
+                <img src="call.png" alt="Call">
+                <p>${i.personalDetails.phone}</p>
+          
+                <img src="ema.png" alt="Email">
+                <p>${i.personalDetails.email}</p>
+         
+                <img src="home.png" alt="Home">
+                <p>${i.personalDetails.country} ${i.personalDetails.city} ${i.personalDetails.pincode}</p><br>  
+            </div>
+            <div class="summary">
+               <h3>SUMMARY</h3> 
+               <p>${i.personalDetails.objective}</p>
+               </div>
+            <div class="experience">
+                <h3>WORK EXPERIENECE</h3>
+                   <li>Company Name : ${i.workExperience.company_name}</li>
+                        <li>Date of Join :${i.workExperience.date_of_joining} </li>
+                        <li>Internship Company : ${i.workExperience.internship_company}</li>
+                        <li>Internship Duration : ${i.workExperience.internship_duration}</li>
+                        <li>Job Description : ${i.workExperience.job_description}</li>
+            </div>
+            <div class="achieve">
+                <h3>Awards Recieved</h3>
+                <div class="element">
+                    <div class="box">
+                        <img src="award.png" alt="">
+                    </div>                        
+                    <p>${i.achievements.certificates}</p>
+                </div>
+                <div class="element">
+                    <div class="box">
+                        <img src="award.png" alt="">
+                    </div>                        
+                    
+                    <p>${i.achievements.hobbies}</p>
+                </div>
+        
+            </div>
+        </div>
+    </div>
+            <div class="right">
+                <div class="image">
+                    <img src="${i.personalDetails.photo}"/>
+                </div>
+                <div class="skills">
+                    <h3>SKILLS</h3>
+                    <li>${i.skills.soft_skills}</li>
+                    <li>${i.skills.technical_skills}</li>
+                </div>
+                <div class="edu">
+                    <h3>EDUCATION</h3>
+                      <li>P-Graduation % :${i.education.post_graduation_percentage}</li>
+                    <li>Graduation % :${i.education.graduation_percentage}</li>
+                    <li>12th % :${i.education.tenth_percentage}</li>
+                    <li>10th % :${i.education.twelfth_percentage}</li>
+                            
+                </div>
+               
+            </div>
+        </div>`;
+
+document.getElementById('container').innerHTML = clutter;
+
+} catch (err) {
+console.error(err);
+}
+}
+</script>
+</html>

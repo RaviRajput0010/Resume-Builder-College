@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dynamic Resume Builder</title>
+    <style>
+        /* Global Styles */
+        body {
+            font-family: Arial, sans-serif;
+            background: #f4f4f4;
+            margin: 0;
+            padding: 0;
+            color: #333;
+        }
+        .container {
+            display: flex;
+            min-height: 100vh;
+            gap: 20px;
+            padding: 20px;
+        }
+        .form-section, .preview-section {
+            flex: 1;
+            padding: 20px;
+            background: #fff;
+            box-shadow: 0 0 10px #ccc;
+            border-radius: 10px;
+        }
+
+        h2 {
+            text-align: center;
+            color: #2c3e50;
+        }
+
+        label, input, textarea, select {
+            display: block;
+            width: 100%;
+            margin-bottom: 15px;
+            padding: 10px;
+            box-sizing: border-box;
+        }
+
+        button {
+            width: 100%;
+            background: #28a745;
+            color: #fff;
+            border: none;
+            padding: 10px 15px;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        button:hover {
+            background: #218838;
+        }
+
+        .resume {
+            padding: 20px;
+            color: var(--text-color, #333);
+            background: var(--bg-color, #ffffff);
+            line-height: 1.6;
+            box-shadow: 0 0 15px #ccc;
+            border-radius: 10px;
+            text-align: center;
+        }
+
+        .resume h2 {
+            color: var(--text-color, #2c3e50);
+        }
+
+        .resume img {
+            max-width: 150px;
+            height: auto;
+            border-radius: 50%;
+           display: flex;
+            margin-right: 0px;
+        }
+
+        .section {
+            margin-bottom: 20px;
+            text-align: left;
+        }
+
+        .section-title {
+            font-weight: bold;
+            color: var(--text-color, #1abc9c);
+            font-size: 18px;
+        }
+
+        .skills, .experience, .education, .contact {
+            margin-bottom: 15px;
+        }
+
+        .flex {
+            display: flex;
+            justify-content: space-between;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+
+    <!-- Form Section -->
+    <div class="form-section">
+        <h2>Resume Builder</h2>
+
+        <label>Profile Picture:</label>
+        <input type="file" id="profileImage" accept="image/*" onchange="previewImage()">
+
+        <label>Full Name:</label>
+        <input type="text" id="fullName" placeholder="Enter your full name" oninput="updateResume()">
+
+        <label>Email:</label>
+        <input type="email" id="email" placeholder="Enter your email" oninput="updateResume()">
+
+        <label>Phone:</label>
+        <input type="text" id="phone" placeholder="Enter your phone" oninput="updateResume()">
+
+        <label>Skills (comma-separated):</label>
+        <input type="text" id="skills" placeholder="E.g., HTML, CSS, JavaScript" oninput="updateResume()">
+
+        <label>Experience:</label>
+        <textarea id="experience" rows="4" placeholder="Describe your experience" oninput="updateResume()"></textarea>
+
+        <label>Education:</label>
+        <textarea id="education" rows="4" placeholder="Your education details" oninput="updateResume()"></textarea>
+
+        <label>Summary:</label>
+        <textarea id="summary" rows="4" placeholder="A short summary" oninput="updateResume()"></textarea>
+
+        <label>Background Color:</label>
+        <input type="color" id="bgColor" value="#ffffff" oninput="updateColors()">
+
+        <label>Text Color:</label>
+        <input type="color" id="textColor" value="#333333" oninput="updateColors()">
+
+        <button onclick="generatePDF()">Download as PDF</button>
+    </div>
+
+    <!-- Preview Section -->
+    <div class="preview-section">
+        <h2>Resume Preview</h2>
+        <div id="resume" class="resume">
+            <img id="resumeImage" src="" alt="Profile Picture" style="display: none;">
+
+            <div class="header">
+                <h2 id="resumeName">[Full Name]</h2>
+                <p id="resumeEmail">[Email]</p>
+                <p id="resumePhone">[Phone]</p>
+            </div>
+
+            <div class="skills section">
+                <h3 class="section-title">Skills</h3>
+                <p id="resumeSkills">[Skills]</p>
+            </div>
+
+            <div class="experience section">
+                <h3 class="section-title">Experience</h3>
+                <p id="resumeExperience">[Experience]</p>
+            </div>
+
+            <div class="education section">
+                <h3 class="section-title">Education</h3>
+                <p id="resumeEducation">[Education]</p>
+            </div>
+
+            <div class="contact section">
+                <h3 class="section-title">Summary</h3>
+                <p id="resumeSummary">[Summary]</p>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+
+<script>
+    // Function to preview the image
+    function previewImage() {
+        const file = document.getElementById('profileImage').files[0];
+        const reader = new FileReader();
+
+        reader.onload = function(event) {
+            const img = document.getElementById('resumeImage');
+            img.src = event.target.result;
+            img.style.display = 'block';
+        };
+
+        if (file) {
+            reader.readAsDataURL(file);
+        }
+    }
+
+    // Update the live preview with form data
+    function updateResume() {
+        document.getElementById('resumeName').innerText = document.getElementById('fullName').value || "[Full Name]";
+        document.getElementById('resumeEmail').innerText = document.getElementById('email').value || "[Email]";
+        document.getElementById('resumePhone').innerText = document.getElementById('phone').value || "[Phone]";
+
+        let skills = document.getElementById('skills').value;
+        document.getElementById('resumeSkills').innerText = skills ? skills.split(',').join(', ') : "[Skills]";
+
+        document.getElementById('resumeExperience').innerText = document.getElementById('experience').value || "[Experience]";
+        document.getElementById('resumeEducation').innerText = document.getElementById('education').value || "[Education]";
+        document.getElementById('resumeSummary').innerText = document.getElementById('summary').value || "[Summary]";
+    }
+
+    // Update colors dynamically
+    function updateColors() {
+        let bgColor = document.getElementById('bgColor').value;
+        let textColor = document.getElementById('textColor').value;
+
+        const resume = document.getElementById('resume');
+        resume.style.setProperty('--bg-color', bgColor);
+        resume.style.setProperty('--text-color', textColor);
+    }
+
+    // Download as PDF with image
+    function generatePDF() {
+        const resumeElement = document.getElementById('resume');
+
+        const options = {
+            margin: 10,
+            filename: 'Resume.pdf',
+            image: { type: 'jpeg', quality: 0.98 },
+            html2canvas: { scale: 2 },
+            jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }
+        };
+
+        html2pdf().from(resumeElement).set(options).save();
+    }
+</script>
+
+</body>
+</html>

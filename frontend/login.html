@@ -1,0 +1,185 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link rel="icon" type="image/x-icon" href="logo/y.png">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login</title>
+</head>
+<style>
+    
+    .main
+    {
+        height: 100%;
+        width: 100%;
+        justify-content: center;
+        display: flex;
+        align-items: center;
+       
+    }
+
+    .box
+    {
+        padding: 20px;
+        display: flex;
+        justify-content: space-between;
+        align-items: left;
+        flex-direction: column;
+        height: 430px;
+        width: 380px;
+        background-color: rgb(203, 230, 230);
+        font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+    }
+
+    .bodymain
+    {
+        height:auto;
+        width:100%;
+    }
+
+    .bodymain input
+    {
+        height: 55px;
+        width: 100%;
+        border: 0.1px solid #ddd;
+        outline: none;
+        padding: 20px;
+        
+    }
+
+     button
+    {
+       margin-top: 30px;
+        height: 50px;
+        width: 100%;
+        background-color:rgb(56, 166, 56);
+        outline: none;
+        border: none;
+        font-weight: 500;
+        color: white;
+        font-size: 1.2rem;
+
+    }
+
+    #btn2{
+        display: none;
+    }
+
+    .loginheading
+    {
+        position: relative;
+    }
+
+    .loginheading img
+    {
+        position: absolute;
+        height: 100px;
+        width: 100px;
+        top: 0px;
+        right: 0px;
+    }
+
+    button:hover
+    {
+        background-color:rgb(45, 196, 45);
+        transform: scale(1.01);
+    }
+
+    #refer a
+    {
+        text-decoration: none;
+        color: red;
+        font-size: 1.2rem;
+    }
+</style>
+<body>
+    <div class="main">
+        <div class="box">
+            <div class="loginheading">
+                <h3>Login Account</h3>
+                <p>To create a Resume Please Login</p>
+                <p id="refer"><a href="register.html">👉 Register here </a></p>
+                <p id="refer"><a href="forget.html">👉 Forgot Password ? </a></p>
+                
+                <div class="image">
+                        <img src="logo\account.png" alt="error">
+                </div>
+            </div>
+            
+            <div class="bodymain">
+                <input type="email" placeholder="Enter Email"  id="email" required>
+                <input type="password" placeholder="Enter password" id="password" style="display: none;" required>
+            </div>
+            <div class="button">
+                <button onclick="verifyEmail()" id="btn">Continue</button>
+                <button onclick="verifyPassword()" id="btn2">Verify Password</button>
+            </div>
+            
+        </div>
+    </div>
+</body>
+<script>
+
+    var password = ''
+    var emailverified = false
+    
+    async function verifyEmail() {
+        const data={email:document.getElementById("email").value}          
+
+        try 
+        {
+        const res = await fetch("https://online-resume-builder-application.onrender.com/verifyemail", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(data)
+        });
+
+        const result = await res.json();
+        
+        if (result && result.length > 0) {
+            localStorage.setItem('userlogindata', JSON.stringify(result));
+            password = result[0].password;
+            emailverified = true;
+        } 
+        else
+        {
+            emailverified = false;
+        }
+
+      } catch (err) 
+      {
+        console.error(err);
+      }
+
+        if (emailverified=== true) {
+            alert("Email Verified ");
+            document.getElementById("password").style.display = "block";
+            document.getElementById("btn").style.display = "none";
+            document.getElementById("btn2").style.display = "block";
+        } else {
+            alert(" Wrong Email");
+        }
+    }
+
+
+    function verifyPassword() {
+    const passwordInput = document.getElementById("password").value;
+    const userData = JSON.parse(localStorage.getItem('userlogindata'))[0]; 
+
+    if (passwordInput === password) 
+    {
+        alert("Login Successful");
+
+        localStorage.setItem('loggedInEmail', userData.email);
+
+        window.location.href = "index2.html";
+    }
+     else {
+        alert("Incorrect Password");
+
+        localStorage.removeItem('loggedInEmail');
+        localStorage.removeItem('userlogindata');
+
+    }
+}
+</script>
+</html>

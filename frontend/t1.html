@@ -1,0 +1,327 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    
+    <link rel="icon" type="image/x-icon" href="logo/y.png">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<style>
+*
+{
+    padding: 0;
+    margin: 0;
+}
+
+#star{
+    height: 15px;
+    width: 15px;
+}
+.container
+{
+    font-family:Arial, Helvetica, sans-serif;
+    height: 100vh;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.template
+{
+    background-color: rgb(254, 254, 254);
+    height: 100%;
+    width: 40%;
+    border: 1px solid;
+    overflow:hidden;
+    display: flex;
+    flex-direction: row;
+}
+
+.left
+{
+    background-color: rgb(4, 5, 5);
+    height: 100%;
+    width: 30%;
+    padding: 20px;
+   display: flex;
+   flex-direction: column;
+   justify-content: space-around;
+}
+
+.left .circle
+{
+    border-radius: 50%;
+    background-color: aliceblue;
+    height:25%;
+    width:100%;
+    overflow: hidden;
+}
+
+.personal,.skills,.award
+{
+    background-color: black;
+    height: auto;
+    width: 160px;
+    padding: 4px;
+    word-wrap: break-word;
+}
+
+.personal h4
+{
+    justify-content: space-around;
+    align-items: center;
+    display: flex;
+}
+
+.personal .element
+{
+    padding: 4px;
+    gap: 8px;
+    display: flex;
+
+}
+
+.element img
+{
+    height:15px;
+    width: 15px;
+}
+
+.skills .element1
+{
+    padding: 4px;
+    gap: 8px;
+    display: flex;
+}
+
+.award .element
+{  
+    padding: 4px;
+    gap: 8px;
+    display: flex;
+    height: 24%;
+    width: 100%;
+}
+
+
+.element1 img
+{
+    height:15px;
+    width: 15px;
+}
+
+.personal h3{
+    margin: 4px 0px;
+    color: white;
+}
+
+.skills h3{
+    margin: 8px 0px;
+    color: white;
+}
+
+.award h3{
+    margin: 8px 0px;
+    color: white;
+}
+
+.personal p
+{
+    color: white;
+}
+
+.skills p
+{
+    color: white;
+}
+
+.award p
+{
+    color: white;
+}
+
+.box
+{
+    padding: 3px;
+    object-fit: contain;
+}
+
+.right
+{
+    width: 65%;
+    display: flex;
+    flex-direction: column;
+    justify-content:space-between;
+    align-items: center;
+    padding: 10px;
+}
+.heading
+{
+    height: 150px;
+    width: 100%;
+    font-size: 1.7rem;
+    display: flex;
+    flex-direction:column;
+    justify-content: center;
+    align-items: center;
+    margin-right: 20px;
+}
+
+.one,.two,.three
+{
+    height: auto;
+    width: 100%;
+    left: 20px;
+}
+
+.circle img
+{
+    height: 100%;
+    width: 100%;
+}
+
+#address
+{
+    display: flex;
+    flex-direction: column;
+    height: 15px;
+    width: auto;
+    flex-wrap: wrap;
+}
+
+.personal , .skills , .award
+{
+    font-size: 14px;
+    margin-left: -12px;
+}
+
+.one
+{
+    margin-right: 25px;
+    margin-left: 10px;
+    width: 95%;
+    max-height: 300px;  
+    overflow-y: auto; 
+    word-wrap: break-word;
+    line-height: 1.2;
+}
+
+
+</style>
+<body>
+    <div class="container" id="container">
+        
+    </div>
+</body>
+<script>
+    window.onload = () => {
+        // Get email from URL
+        const queryParams = new URLSearchParams(window.location.search);
+        const id = queryParams.get("id");
+
+        if (!id) {
+            alert("No email found in URL.");
+            return;
+        }
+
+        // Fetch and render resume by email
+        fetchResume(id);
+    };
+
+    async function fetchResume(id) {
+        try {
+            const res = await fetch('http://localhost:8861/allresume');
+            const data = await res.json();
+
+            // Find the resume that matches the email
+            const userResume = data.find(item => item._id === id);
+
+            if (!userResume) {
+                document.getElementById("container").innerHTML = "<h2>No resume found for this email.</h2>";
+                return;
+            }
+
+            // Render the resume
+            let clutter = `
+                <div class="template">
+                    <div class="left">
+                        <div class="circle">
+                            <img src="${userResume.personalDetails.photo}" alt="Profile Picture"/>
+                        </div>
+                        <div class="personal">
+                            <h3>Personal Details</h3>
+                            <div class="element">
+                                <div class="box"><img src="call.png"/></div>
+                                <p>${userResume.personalDetails.phone}</p>
+                            </div>
+                            <div class="element">
+                                <div class="box"><img src="ema.png"/></div>
+                                <p>${userResume.personalDetails.email}</p>
+                            </div>
+                            <div class="element" id="address">
+                                <div class="box"><img src="home.png"/></div>
+                                <p>${userResume.personalDetails.country}, ${userResume.personalDetails.city} - ${userResume.personalDetails.pincode}</p>
+                            </div>
+                        </div>
+                        <div class="skills">
+                            <h3>Skills Summary</h3>
+                            <div class="element1"><div class="box"><img src="star.png" alt=""/></div><p>${userResume.skills.soft_skills}</p></div>
+                            <div class="element1"><div class="box"><img src="star.png" alt=""/></div><p>${userResume.skills.technical_skills}</p></div>
+                        </div>
+                        <div class="award">
+                            <h3>Awards & Hobbies</h3>
+                            <div class="element"><div class="box"><img src="award.png" alt=""/></div><p>${userResume.achievements.certificates}</p></div>
+                            <div class="element"><div class="box"><img src="award.png" alt=""/></div><p>${userResume.achievements.hobbies}</p></div>
+                        </div>
+                    </div>
+                    <div class="right">
+                        <div class="heading">
+                            <h2>${userResume.personalDetails.name} ${userResume.personalDetails.lastname}</h2>
+                            <h3>${userResume.workExperience.job_title}</h3>
+                        </div>
+                        <div class="one">
+                            <h3>Personal Profile</h3>
+                            <p>${userResume.personalDetails.objective}</p>
+                        </div>
+                        <div class="two">
+                            <h3>Work Profile</h3>
+                            <ul>
+                                <li><strong>Company Name:</strong> ${userResume.workExperience.company_name}</li>
+                                <li><strong>Job Title:</strong> ${userResume.workExperience.job_title}</li>
+                                <li><strong>Date of Joining:</strong> ${userResume.workExperience.date_of_joining}</li>
+                                <li><strong>Job Description:</strong> ${userResume.workExperience.job_description}</li>
+                                <li><strong>Internship Company:</strong> ${userResume.workExperience.internship_company}</li>
+                                <li><strong>Internship Duration:</strong> ${userResume.workExperience.internship_duration}</li>
+                                <li><strong>Internship Description:</strong> ${userResume.workExperience.internship_description}</li>
+                            </ul>
+                        </div>
+                        <div class="three">
+                            <h3>Education History</h3>
+                            <ul>
+                                <li><strong>10th Grade:</strong> ${userResume.education.tenth_percentage} %</li>
+                                <li><strong>12th Grade:</strong> ${userResume.education.twelfth_percentage} %</li>
+                                <li><strong>Graduation:</strong> ${userResume.education.graduation_percentage} %</li>
+                                <li><strong>Post Graduation:</strong> ${userResume.education.post_graduation_percentage} %</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            `;
+
+            document.getElementById('container').innerHTML = clutter;
+
+        } catch (err) {
+            console.error("Error fetching resume:", err);
+        }
+    }
+</script>
+
+</html>
+
+
+
+
+
+    

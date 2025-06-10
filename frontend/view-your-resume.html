@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <link rel="icon" type="image/x-icon" href="logo/y.png">
+  <meta charset="UTF-8">
+  <title>Admin Userview page</title>
+  <style>
+    body {
+      font-family: Arial;
+      padding: 20px;
+      background: #f4f4f4;
+      display: flex;
+      flex-direction: column;
+      align-items: center;  
+      justify-content: center;
+    }
+
+    h2 {
+      text-align: center;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      background-color: #fff;
+        
+    }
+
+    th, td {
+      border: 1px solid #ccc;
+      padding: 12px;
+      text-align: left;
+    }
+
+    th {
+      background-color: #3fada8;
+      color: white;
+    }
+
+    tr:nth-child(even) {
+      background-color: #f9f9f9;
+    }
+
+    button {
+      background-color: #e74c3c;
+      color: white;
+      border: none;
+      padding: 8px 12px;
+      cursor: pointer;
+      border-radius: 4px;
+    }   
+
+    button:hover {
+      background-color: #c0392b;
+    }
+
+    
+    #delete{
+      background-color: blue;
+    }
+
+    #delete:hover
+    {
+      background-color: rgb(7, 7, 163);
+    }
+
+
+  </style>
+</head>
+<body>
+  <h2>Resume Records</h2>
+  <table id="resumetable">
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Last Name</th>
+        <th>Phone</th>
+        <th>Email</th>
+        <th>City</th>
+        <th>Country</th>
+        <th>Action</th>
+      </tr>
+    </thead>
+    <tbody>
+      <!-- Rows will be injected here -->
+    </tbody>
+  </table>
+
+</body>
+<script>
+  async function fetchresume() {
+  try {
+    const email = (localStorage.getItem('loggedInEmail') || '').toLowerCase().trim();
+
+    const res = await fetch("https://online-resume-builder-application.onrender.com/allresume"); 
+    const data = await res.json();
+
+    const tbody = document.getElementById('resumetable').querySelector('tbody');
+    tbody.innerHTML = '';
+
+    const filteredData = data.filter(user =>
+      user.personalDetails?.email?.toLowerCase().trim() === email
+    );
+
+    filteredData.forEach(user => {
+  const userEmail = user.personalDetails?.email || '';
+  const templateId = user.templateid ;
+
+  const userId = user._id;
+
+  const row = `
+    <tr>
+      <td>${user.personalDetails?.name || 'N/A'}</td>
+      <td>${user.personalDetails?.lastname || 'N/A'}</td>
+      <td>${user.personalDetails?.phone || 'N/A'}</td>
+      <td>${userEmail}</td>
+      <td>${user.personalDetails?.city || 'N/A'}</td>
+      <td>${user.personalDetails?.country || 'N/A'}</td>
+      <td><button onclick="openTemplate('${userId}', 't${templateId}')">View</button>  <button onclick="deleteUser('${user._id}')" id='delete'>Delete</button></td>
+    </tr>`;
+  
+  tbody.innerHTML += row;
+});
+
+
+  } catch (error) {
+    console.error("Error fetching Resume:", error);
+  }
+}
+
+  
+    fetchresume();
+  
+    function openTemplate(id, templateId)
+    {
+      const validTemplates = ["t1", "t2", "t3", "t4"];
+      if (validTemplates.includes(templateId)) 
+      {
+        window.location.href = `${templateId}.html?id=${id}`;
+      } else {
+      alert("Template not Found");
+      }
+    }
+
+    
+    async function deleteUser(id) {
+      if (confirm("Are you sure you want to delete this Resume?")) {
+        try {
+          const res = await fetch(`https://online-resume-builder-application.onrender.com/deleteresume/${id}`, {
+            method: "DELETE"
+          });
+          const result = await res.json();
+          alert(result.message || "Resume deleted");
+             // Initial load
+          fetchresume();
+          fetchUsers();
+        } catch (err) {
+          console.error("Delete failed:", err);
+        }
+      }
+    }
+
+
+  </script>
+  
+
+</html>

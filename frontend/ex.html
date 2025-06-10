@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>View Templates</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f2f2f2;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .container {
+            position: relative;
+        }
+
+        .view-btn {
+            display: inline-block;
+            padding: 15px 30px;
+            background-color: #4CAF50;
+            color: white;
+            text-decoration: none;
+            border: none;
+            cursor: pointer;
+            transition: 0.3s;
+            border-radius: 5px;
+        }
+
+        .view-btn:hover {
+            background-color: #45a049;
+        }
+
+        .templates {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            width: 400px;
+            background-color: white;
+            border: 1px solid #ddd;
+            box-shadow: 0 8px 16px rgba(0,0,0,0.1);
+            display: none;
+            z-index: 1;
+        }
+
+        .container:hover .templates {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            padding: 15px;
+        }
+
+        .template {
+            width: calc(50% - 10px);
+            height: 150px;
+            background-color: #f0f0f0;
+            border: 1px solid #ccc;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            font-weight: bold;
+            transition: 0.3s;
+        }
+
+        .template:hover {
+            background-color: #ddd;
+            transform: scale(1.05);
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <button class="view-btn">View Templates</button>
+
+    <div class="templates">
+        <div class="template">T1</div>
+        <div class="template">T2</div>
+        <div class="template">T3</div>
+        <div class="template">T4</div>
+    </div>
+</div>
+
+</body>
+</html>

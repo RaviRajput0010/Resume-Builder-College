@@ -1,0 +1,141 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link rel="icon" type="image/x-icon" href="logo/y.png">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Signup</title>
+</head>
+<style>
+    
+    .main
+    {
+        height: 100%;
+        width: 100%;
+        justify-content: center;
+        display: flex;
+        align-items: center;
+       
+    }
+
+    .box
+    {
+        padding: 20px;
+        display: flex;
+        justify-content: space-between;
+        align-items: left;
+        flex-direction: column;
+        height: 430px;
+        width: 380px;
+        background-color: rgb(203, 230, 230);
+        font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+    }
+
+    .bodymain
+    {
+        height:auto;
+        width:100%;
+    }
+
+    .bodymain input
+    {
+        height: 55px;
+        width: 100%;
+        border: 0.1px solid #ddd;
+        outline: none;
+        padding: 20px;
+        
+    }
+
+     button
+    {
+       margin-top: 30px;
+        height: 50px;
+        width: 100%;
+        background-color:rgb(56, 166, 56);
+        outline: none;
+        border: none;
+        font-weight: 500;
+        color: white;
+
+    }
+   
+    .loginheading
+    {
+        position: relative;
+    }
+
+    .loginheading img
+    {
+        position: absolute;
+        height: 100px;
+        width: 100px;
+        top: 0px;
+        right: 0px;
+    }
+
+    button:hover
+    {
+        background-color:rgb(45, 196, 45);
+        transform: scale(1.01);
+    }
+
+</style>
+<body>
+    <div class="main">
+        <div class="box">
+            <div class="loginheading">
+                <h3>Register your Account</h3>
+                <p>To create a Resume Please Login</p>
+                <div class="image">
+                        <img src="logo\account.png" alt="error">
+                </div>
+            </div>
+            
+            
+            <div class="bodymain">
+                <form id="usersignupform">
+                <input type="text" placeholder="Enter Name" id="name">
+                <input type="number" placeholder="Enter Phone"  id="phone">
+                <input type="email" placeholder="Enter Email"  id="email">
+                <input type="password" placeholder="Enter password"  id="password">
+                <button type="submit" id="btn">Continue</button>
+                </form>
+                
+                
+            </div>
+                      
+        </div>
+    </div>
+</body>
+<script>    
+const form = document.getElementById("usersignupform");
+
+form.addEventListener("submit", async (e) => {
+  e.preventDefault();
+
+  const data = {
+    name: document.getElementById("name").value,
+    phone: document.getElementById("phone").value,
+    email: document.getElementById("email").value,
+    password: document.getElementById("password").value
+  };
+
+  try {
+    const res = await fetch("https://online-resume-builder-application.onrender.com/signup", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(data),
+    });
+
+    const result = await res.json();
+    alert(result.message || "Submission successful!");
+    form.reset();
+    window.location.href = "login.html"
+  } catch (err) {
+    alert("Error submitting the form.");
+    console.error(err);
+  }
+});
+
+</script>
+</html>

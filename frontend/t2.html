@@ -1,0 +1,255 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link rel="icon" type="image/x-icon" href="logo/y.png">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        * {
+            padding: 0;
+            margin: 0;
+            box-sizing: border-box;
+        }
+
+        .container {
+            height: 100%;
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: fixed;
+        }
+
+        .template {
+            height: 100%;
+            background-color: #ffffff;
+            width: 40%;
+            border: 1px solid #ccc;
+            overflow: hidden;
+            display: flex;
+            flex-direction: row;
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);          
+        }
+
+        .left {
+            height: 100%;
+            width: 44%;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start;
+            align-items: flex-start;
+            gap: 20px; /* Spacing between sections */
+        }
+
+        .left .circle {
+            border-radius: 50%;
+            height: 140px;
+            width: 150px;
+        }
+
+        .one, .two, .three {
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start; /* Align all content to the left */
+        }
+
+        .one h3, .two h3, .three h3 {
+            font-size: 18px;
+            color: #333;
+            margin-bottom: 10px;
+        }
+
+        .one p, .two p, .three li {
+            font-size: 14px;
+            color: #555;
+            margin: 5px 0;
+        }
+
+        .box {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .box img {
+            width: 20px;
+            height: 20px;
+            object-fit: contain;
+        }
+
+        .right {
+            background-color: yellow;
+            width: 66%;
+            padding: 40px;
+            background: #ffffff;
+            display: flex;
+            flex-direction: column;
+            gap: 30px; /* Spacing between sections */
+        }
+
+
+        .head h2 {
+            font-size: 28px;
+            color: #333;
+        }
+
+        .head h3 {
+            font-size: 20px;
+            color: #777;
+        }
+
+        .first, .second, .third {
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .first h3, .second h3, .third h3 {
+            font-size: 22px;
+            color: #444;
+        }
+
+        .first p {
+            font-size: 16px;
+            color: #555;
+            line-height: 1.6;
+        }
+
+        .second li, .third li {
+            
+            font-size: 16px;
+            color: #555;
+        }
+
+        .two .box p , .three li
+        {
+            color:black;
+        }
+
+        .circle img
+        {
+            height: 100%;
+            width: 100%;
+        }
+
+        .first,.second,.third
+        {
+            word-wrap: break-word;
+            line-height: 1.2;
+        }
+
+
+    </style>
+</head>
+<body>
+
+<div class="container" id="container">
+    
+</div>
+
+</body>
+
+<script>
+       window.onload = () => {
+        // Get email from URL
+        const queryParams = new URLSearchParams(window.location.search);
+        const id = queryParams.get("id");
+
+        if (!id) {
+            alert("No resume found.");
+            return;
+        }
+
+        // Fetch and render resume by email
+        fetchResume(id);
+    };
+    async function fetchResume(id) {
+        try {
+            const res = await fetch('http://localhost:8861/allresume');
+            const data = await res.json();
+
+            // Find the resume that matches the email
+            const i = data.find(item => item._id === id);
+
+            if (!i) {
+                document.getElementById("container").innerHTML = "<h2>No resume found for this email.</h2>";
+                return;
+            }
+
+            let clutter = ""; 
+
+    clutter = `<div class="template">
+        <div class="left">
+            <div class="circle">
+                <img src="${i.personalDetails.photo}"/>    
+            </div>
+
+            <div class="one">
+                <h3>EDUCATION</h3>
+                <li>P-Graduation % :- ${i.education.post_graduation_percentage} %</li>
+                <li>Graduation % :- ${i.education.graduation_percentage} %</li>
+                <li>12th % :- ${i.education.tenth_percentage} %</li>
+                <li>10th % :- ${i.education.twelfth_percentage} %</li>
+                        
+            </div>
+
+            <div class="two">
+                <h3>CONTACT</h3>
+                <div class="box">
+                    <img src="call.png" alt="Call">
+                    <p>${i.personalDetails.phone}</p>
+                </div>
+                <div class="box">
+                    <img src="ema.png" alt="Email">
+                    <p>${i.personalDetails.email}</p>
+                </div>
+                <div class="box">
+                    <img src="home.png" alt="Home">
+                    <p>${i.personalDetails.country} ${i.personalDetails.city} ${i.personalDetails.pincode}</p>
+                </div>
+            </div>
+
+            <div class="three">
+                <h3>EXPERTISE SKILLS</h3>
+                <li>${i.skills.soft_skills}</li>
+                <li>${i.skills.technical_skills}</li>
+               
+            </div>
+        </div>
+
+        <div class="right">
+            <div class="head">
+                <h2>${i.personalDetails.name } ${i.personalDetails.lastname}</h2>
+                <h3>${i.workExperience.job_description}</h3>
+            </div>
+            <div class="first">
+                    <h3>Personal Profile</h3>
+                   <p>${i.personalDetails.objective}</p>
+            </div>
+            <div class="second">
+                     <h3>Awards Recieved</h3>
+                     <li>${i.achievements.certificates}</li>
+                      <li>${i.achievements.hobbies}</li>
+
+            </div>
+            <div class="third">
+                     <h3>WORK PROFILE</h3>
+                     <li>Company Name :- ${i.workExperience.company_name}</li>
+                     <li>Date of Join :- ${i.workExperience.date_of_joining} </li>
+                     <li>Internship Company :- ${i.workExperience.internship_company}</li>
+                     <li>Internship Duration :- ${i.workExperience.internship_duration}</li>
+                     <li>Job Description :- ${i.workExperience.job_description}</li>
+            </div>
+        </div>
+    </div>`;
+
+document.getElementById('container').innerHTML = clutter;
+
+} catch (err) {
+    console.error("Error fetching resume:", err);
+}
+}
+</script>
+</html>

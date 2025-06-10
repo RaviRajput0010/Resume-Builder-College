@@ -1,0 +1,678 @@
+<html lang="en">
+<head>
+    <link rel="stylesheet" href="c1.css">
+    <link rel="icon" type="image/x-icon" href="logo/y.png">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Resume Builder Application</title>
+</head>
+<style>
+
+    
+
+#templatePage {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: white;
+    z-index: 9999;
+    overflow-y: auto;
+    padding: 20px;
+}
+
+#templatePage img {
+    width: 250px;
+    height: auto;
+    margin: 10px;
+}    
+
+
+
+.dropdown {
+    display: none;
+    position: absolute;
+    background-color: #f9f9f9;
+    min-width: 160px;
+    box-shadow: 0 8px 16px rgba(0,0,0,0.2);
+    z-index: 1;
+    border-radius: 8px;
+    padding: 10px;
+}
+
+
+.dropdown a {
+    color: black;
+    padding: 10px 16px;
+    text-decoration: none;
+    display: block;
+}
+
+
+.dropdown a:hover {
+    background-color: #ddd;
+}
+
+
+li#signin:hover .dropdown {
+    display: block;
+}
+
+
+
+.notactive
+{
+    display: none;
+}
+
+.active
+{
+    display: block;
+}
+
+.user-dropdown {
+    position: relative;
+    display: inline-block;
+}
+
+.user-dropdown p {
+    cursor: pointer;
+    margin: 0;
+    font-size: 1.3rem;
+}
+
+.dropdown-logout {
+    height: 65px;
+    width: 160px;
+    display: none;
+    position: absolute;
+    box-shadow: 0px 8px 16px rgba(0,0,0,0.2);
+    z-index: 1000;
+    border-radius: 6px;
+    right: -40;
+    border: 3px solid;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+
+}
+
+.dropdown-logout a {
+    height: 25px;
+    width: auto;
+    color: black;
+    text-decoration: none;
+    display: block;
+    padding: 6px 10px;
+
+}
+
+.dropdown-logout a:hover {
+    color: #f41a1e;
+}
+
+
+.loginlogout {
+  width: 100px;
+  left: 400px; /* adjust this as needed */
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  min-width: 120px;
+    
+}
+
+.user-dropdown .dropdown-logout img
+{
+    height: 30px;
+    width: 30px;
+    cursor: pointer;
+}
+
+.left , .right
+{
+    display: flex;
+    margin: 3px;
+}
+
+#create a
+{
+    text-decoration: none;
+}
+
+</style>
+<body>
+<div class="titlebody">
+    <div class="title">
+        <div class="logo" id="logo1">
+          <img src="bird.png" > 
+           <h3>Resume Builder</h3>
+        </div>
+
+
+
+        <div class="b">
+            <ul>
+                <li id="resumeTemplate">Resume Template</li>
+                <li id="contact">Contact Us</li>
+                <li id="rate">Rating </li>
+               <a href="view-your-resume.html"><li id="viewResumes"  style="display: none;">View Your Resumes</li></a>
+                <li id="signin">Sign in option
+                    <div class="dropdown">
+                        <a href="login.html">User Login</a>
+                        <a href="forget.html">Forgot Password?</a>
+                    </div>
+                </li>
+
+            </ul>
+        </div>
+
+        <div class="loginlogout">
+            <div class="user-dropdown">
+                <p id="loginname"></p>
+                <div class="dropdown-logout">
+                    <div class="top"> <li id="loginemail"></li></div>
+                   
+                    <div class="right"><li onclick="logout()">Log Out </li></div>
+                    <div class="left"><img src="logout.png" alt="" onclick="logout()"></div>
+                    
+                </div>
+            </div>
+        </div>
+        
+    
+        
+    </div>
+</div>
+
+        <div class="container1 notactive" id="Query">        
+            <div class="main1">
+                <div class="box1">
+                    <div class="left1">
+                        <h1>Raise a Query</h1>
+                        <form id="contactForm">
+
+                            <input type = "text" id="name" placeholder="Enter Your Name" required><br><br>
+                            
+                            <input type = "email" id="email" placeholder="Enter Your Email" required><br><br>
+      
+                            <input type="text" id="msg" placeholder="Enter Your Message" required><br><br>
+      
+                            <input type="submit" id="b1" value="Submit">
+      
+                          </form>
+                    </div>
+                   
+                </div>
+            </div>
+    
+    
+        </div>
+       
+
+        
+        <div class="container2 notactive" id="ratingform">        
+            <div class="main1">
+              <div class="box1">
+                <div class="left1">
+                  <h1>Rate Your Experience</h1>
+                  <form id="rateForm">
+                    <div class="emoji-container">
+
+                      <label class="emoji-option">
+                        <input type="radio" name="emoji" value="Terrible" required>
+                        <img src="https://emojiisland.com/cdn/shop/products/Poop_Emoji_7b204f05-eec6-4496-91b1-351acc03d2c7_large.png?v=1571606036" alt="Terrible" class="emoji-img">
+                        <span class="react">Terrible</span>
+                      </label>
+
+                      <label class="emoji-option">
+                        <input type="radio" name="emoji" value="Bad" >
+                        <img src="https://emojiisland.com/cdn/shop/products/14_large.png?v=1571606116" alt="Bad" class="emoji-img">
+                        <span class="react">Bad</span>
+                      </label>
+                      <label class="emoji-option">
+                        <input type="radio" name="emoji" value="Okay" >
+                        <img src="https://emojiisland.com/cdn/shop/products/Very_Sad_Face_Emoji_Icon_ios10_large.png?v=1571606092" alt="Okay" class="emoji-img">
+                        <span class="react">Okay</span>
+                      </label>
+                      <label class="emoji-option">
+                        <input type="radio" name="emoji" value="Good" >
+                        <img src="https://emojiisland.com/cdn/shop/products/Smiling_Face_Emoji_with_Blushed_Cheeks_large.png?v=1571606036" alt="Good" class="emoji-img">
+                        <span class="react">Good</span>
+                      </label>
+                      <label class="emoji-option">
+                        <input type="radio" name="emoji" value="Awesome" >
+                        <img src="https://emojiisland.com/cdn/shop/products/Heart_Eyes_Emoji_large.png?v=1571606037" alt="Awesome" class="emoji-img">
+                        <span class="react">Awesome</span>
+                      </label>
+                      <label class="emoji-option">
+                        <input type="radio" name="emoji" value="Excellent" >
+                        <img src="https://emojiisland.com/cdn/shop/products/3_large.png?v=1571606116" alt="Excellent" class="emoji-img">
+                        <span class="react">Excellent</span>
+                      </label>
+                    </div>
+          
+                    <input type="submit" id="b2" value="Submit">
+                  </form>
+                </div>
+              </div>
+            </div>
+          </div>
+          
+      
+
+    <div class="container" id="container_id">
+        <div class="Main_body">
+            <div class="first">
+                <div class="image-container">
+                    <img src="https://imgs.search.brave.com/MvaYrD38MivGvPUlLpzat5zt-VQO3oOra0E1N0HukDs/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly9tYXJr/ZXRwbGFjZS5jYW52/YS5jb20vRUFEYWp6/ZVNpTWcvMS8wLzEy/MzZ3L2NhbnZhLWJs/dWUtcGhvdG8tbWlu/aW1hbGlzdC1yZXN1/bWUtOFZxejhaUVJi/OG8uanBn"
+                        class="front" alt="">
+                    <img src="https://imgs.search.brave.com/p-SABOGEkBq-8Mrex718FnKiV1SEDY_RAy9iaiWVMEE/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly9tYXJr/ZXRwbGFjZS5jYW52/YS5jb20vRUFEYWla/d3ljOEEvMS8wLzEy/MzZ3L2NhbnZhLWRh/cmstcHVycGxlLXdv/bWFuLXBob3RvLWN1/c3RvbWVyLXNlcnZp/Y2UtcmVzdW1lLTVa/bE0wdFNjN253Lmpw/Zw"
+                        class="back" alt="">
+                </div>
+            </div>
+
+
+            <div class="second">
+                <h1>
+                    The Best Online
+                    <br>Resume Builder
+                </h1>
+                <h2>
+                    Easily create a resume for any job using our best-in-class resume builder platform.
+                </h2>
+
+                <div class="create" id="create">
+                    <button id="off" onclick="change()">Create My Resume Now</button>
+                  <a href="register.html"><button id="register" onclick="open()">Register User</button></a>
+                </div>
+
+                <div class="percent">
+                    <div class="f">
+                        <h1>38% <h3>More Interviews</h3>
+                        </h1>
+                    </div>
+                    <hr>
+                    <div class="s">
+                        <h1>23% <h3> more likely to <br>get a job offer</h3>
+                        </h1>
+                    </div>
+                </div>
+                
+                    <h2>Subscribers have been hired by: </h2>
+
+                    <div class="logos">
+                        <marquee>
+                            <img class="a1" src="logo\google.png" alt="">
+                            <img src="logo\micro.png" alt="">
+                            <img src="logo\fb.png" alt="">
+                            <img class="a3" src="logo\tesla.png" alt="">
+                            <img src="logo\apple.png" alt="">
+                            <img src="logo\amazon.png" alt="">
+                        </marquee>
+                    </div>
+
+                </div>
+
+                
+
+            </div>
+        </div>
+
+        <div class="templates" id="templates">
+            <div class="temp">
+                <button class="btn" id="1" onclick='fun(id)'>Use This Template</button>
+                <img src="https://imgs.search.brave.com/vKwC5VT6-9vCnuDJE6vwS7GljbBPCxWZYkzPEbzDxOE/rs:fit:500:0:0:0/g:ce/aHR0cHM6Ly9tYXJr/ZXRwbGFjZS5jYW52/YS5jb20vRUFFX0Yz/bDN2TVEvMS8wLzEx/MzF3L2NhbnZhLXdo/aXRlLWJsYWNrLXJl/c3VtZS1yWU1QZGtv/ZlAtQS5qcGc"
+                    alt="">
+                    
+            </div>
+            <div class="temp">
+                <button class="btn" id="2" onclick='fun(id)'>Use This Template</button>
+                <img src="https://imgs.search.brave.com/1EbbBoPe6ITuUANFuuLcIOgwHX1aK8Z-uDKAqJtW8eI/rs:fit:500:0:0:0/g:ce/aHR0cHM6Ly9tYXJr/ZXRwbGFjZS5jYW52/YS5jb20vRUFFX0Zw/YlZVaVEvMS8wLzEx/MzF3L2NhbnZhLXdo/aXRlLWdyZXktcmVz/dW1lLVJPZXBlRzZC/cFFVLmpwZw"
+                    alt="">
+                    
+            </div>
+            <div class="temp">
+                <button class="btn" id="3" onclick='fun(id)'>Use This Template</button>
+                <img src="https://imgs.search.brave.com/pi8dhEs6LLlJV1jMDDIo8pGhHZjRADNgtZy7TZHpS60/rs:fit:500:0:0:0/g:ce/aHR0cHM6Ly9tYXJr/ZXRwbGFjZS5jYW52/YS5jb20vRUFFX1Fo/anpiWkEvMS8wLzEx/MzF3L2NhbnZhLXdl/Yi1kZXZlbG9wZXIt/cmVzdW1lLTZRekVn/b2lOTWpVLmpwZw"
+                    alt="">
+                   
+            </div>
+            
+            <div class="temp">
+                <button class="btn" id="4" onclick='fun(id)'>Use This Template</button>
+                <img src="https://imgs.search.brave.com/zbr8rKjpahcbEDg2m01ERFw8EqD1Jwvf9O_2Xyfj3o4/rs:fit:500:0:0:0/g:ce/aHR0cHM6Ly9jZG4u/ZW5oYW5jdi5jb20v/aW1hZ2VzLzY0OC9p/L2FIUjBjSE02THk5/alpHNHVaVzVvWVc1/amRpNWpiMjB2Wld4/bFoyRnVkRjlvZVdK/eWFXUmZjbVZ6ZFcx/bFgzUmxiWEJzWVhS/bFgyRTBZVFpsWXpF/ME9EUXVjRzVuLnBu/Zw"
+                    alt="">
+                    
+            </div>
+        </div>
+
+        <div class="simple" id="simple">
+            <h1 align="Center">
+                Get hired 36% faster with our feature-packed and
+                <br> easy-to-use resume builder application<br>
+
+                <h2 align="Center"> ResumeBuilder.com is now part of Bold LLC. For more information visit our Terms of
+                    Use and Privacy Policy.</h2>
+
+            </h1>
+        </div>
+        
+        <div class="main"id="main">
+            <div class="gridview">
+                <div class="box">
+                    <img src="logo\power.png" alt="">
+                    <h2>Powerful resume builder</h2>
+                    Use our potent creation tools and expert guidance to create the perfect resume for your next job application.
+                </div>
+                <div class="box">
+                    <img src="logo\prof.png" alt="">
+                    <h2>Professional templates</h2>
+                    Choose from 25+ applicant tracking systems (ATS)-friendly modern and professional templates.
+                </div>
+                <div class="box">
+                    <img src="logo\custom.png" alt="">
+                    <h2>Customize fonts and colors</h2>
+                    Select custom fonts and colors on any resume template.
+                </div>
+            </div>
+
+            <div class="gridview2">
+                <div class="box">
+                    <img src="logo\free.png" alt="">
+                    <h2>Free resume examples</h2>
+                    Use our more than 500 resume examples and templates to see what a great resume looks like in your field.
+                </div>
+                <div class="box">
+                    <img src="logo\friend.png" alt="">
+                    <h2>ATS-friendly templates</h2>
+                    Sail through applicant tracking systems with resume templates that appeal to both machines and humans.
+                </div>
+                <div class="box">
+                    <img src="logo\tip.png" alt="">
+                    <h2>Expert tips and guidance</h2>
+                    Get help every step of the way as you build your resume with expert tips and suggested phrases.
+                </div>
+            </div>
+            
+            <div class="bottomdiv">
+                <div class="div1">
+                    <img src="bird.png">
+                    <font style="color: #f41a1e"> <h3>Resume Builder</h3> </font>
+                </div>
+                <div class="div2">
+                    <p><b><h3>Also from us</h3></b><br>
+                    <a href="#"><p>elem</a>
+                    <a href="#"><p>elem</a>
+                    <a href="#"><p>elem</a>
+                    <a href="#"><p>elem</p></a>
+                </div>
+                <div class="div3">
+                    <p><b><h3>Follow us</h3></b><br>
+                        <a href="#"><p>Linked in</a>
+                        <a href="#"><p>Facebook</a>
+                        <a href="#"><p>Instagram</a>
+                        <a href="#"><p>Twitter X</p></a>
+                </div>
+                <div class="div4">
+                    <p><b><h3>Contact us</h3></b><br>
+                        <a href="#"><p>Rohini Rithala</a>
+                        <a href="#"><p>Rr935370#gmail.com</a>
+                        <a href="#"><p>+919971507570</a>
+                </div>
+            </div>
+            <div class="footer">
+                <div class="social">
+                    <a href=""><img src="logo\insta.png"></a>
+                    <a href=""><img src="logo\twitter.png"></a>
+                    <a href=""><img src="logo\snap.png"></a>
+                    <a href=""><img src="logo\facebook.png"></a>      
+                                        
+                </div>
+
+            </div>
+
+
+        </div>
+    </div>
+
+</body>
+<script>
+
+
+
+var logindataname = ''
+var logindataemail = ''
+
+window.onload = () => {
+
+    document.querySelectorAll('.btn').forEach(btn => {
+    btn.style.display = 'none';
+    });
+
+    dropdownLogout.style.display = "none";
+
+    const x = JSON.parse(localStorage.getItem('userlogindata'));
+
+    if (x && x.length > 0) {
+        logindataname = x[0].name;
+        logindataemail =x[0].email;
+        document.getElementById('loginname').innerHTML = "Hii " + logindataname;
+       
+        document.getElementById('loginemail').innerHTML = "" + logindataemail;
+        // Show user-specific elements
+        document.querySelector('.loginlogout').style.display = "block";
+        document.getElementById('signin').style.display = "none";
+        document.getElementById('viewResumes').style.display = "inline-block";
+        document.getElementById('register').style.display='none'; 
+
+        document.querySelectorAll('.btn').forEach(btn => {
+        btn.style.display = 'block';
+        });
+
+        
+    } else {
+        document.querySelector('.loginlogout').style.display = "none";
+        document.getElementById('signin').style.display = "block";
+        document.getElementById('viewResumes').style.display = "none"; 
+        document.getElementById('rate').style.display='none';
+        document.getElementById('off').style.display='none';
+
+        
+    }
+}
+
+const container = document.getElementById("container_id");
+const templates = document.getElementById("templates");
+const main = document.getElementById("main");
+const simple = document.getElementById("simple");
+const query = document.getElementById("Query");
+const templatePage = document.getElementById("templatePage");
+
+document.getElementById("contact").addEventListener("mouseover",()=>
+{
+container.style.display="none";
+templates.style.display="none";
+main.style.display="none"; 
+simple.style.display="none";
+ratingform.style.display="none"; 
+query.style.display="block";    
+})
+
+
+document.getElementById("rate").addEventListener("mouseover",()=>
+{
+container.style.display="none";
+templates.style.display="none";
+main.style.display="none"; 
+simple.style.display="none";
+query.style.display="none";
+ratingform.style.display="block"; 
+})
+
+
+
+document.getElementById("logo1").addEventListener("mouseover",()=>
+{
+container.style.display="block";
+templates.style.display="flex";
+main.style.display="block"; 
+simple.style.display="block";
+query.style.display="none";  
+})
+
+document.getElementById("resumeTemplate").addEventListener("mouseover", () => {
+container.style.display="none";
+templates.style.display="flex";
+main.style.display="none"; 
+simple.style.display="none";
+query.style.display="none";
+ratingform.style.display="none";
+
+templates.style.display = "flex";
+    templates.style.justifyContent = "space-around";
+    templates.style.alignItems = "center";
+    templates.style.marginTop="80px";// Ensures vertical centering
+    templates.style.width = "100%"; 
+
+});
+
+
+document.addEventListener("DOMContentLoaded", () => {
+      const form = document.getElementById("contactForm");
+  
+      form.addEventListener("submit", async (e) => {
+        e.preventDefault();
+  
+        const data = {
+          name: document.getElementById("name").value,
+          email: document.getElementById("email").value,
+          message: document.getElementById("msg").value
+        };
+  
+        try {
+          const res = await fetch("http://localhost:8861/contact", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(data),
+          });
+  
+          const result = await res.json();
+          alert(result.message || "Submission Successful!");
+          form.reset();
+        } catch (err) {
+          alert("Error submitting the form.");
+          console.error(err);
+        }
+      });
+    });
+
+    function logout() {
+    localStorage.removeItem('userlogindata');
+
+    document.getElementById('loginname').innerHTML = "";
+    document.getElementById('signin').style.display = "block";
+    document.getElementById('rate').style.display = 'none';
+    document.querySelector('.loginlogout').style.display = "none";
+    document.querySelector('.viewResumes').style.display = "none";
+    document.getElementById('create').style.display = "flex"; 
+    document.getElementById('register').style.display = "block";
+
+    document.querySelectorAll('.btn').forEach(btn => {
+        btn.style.display = 'none';
+    });
+
+}
+
+function change()
+{
+container.style.display="none";
+templates.style.display="inline-flex";
+main.style.display="none"; 
+simple.style.display="none";
+query.style.display="none";
+
+
+templates.style.display = "flex";
+templates.style.justifyContent = "space-around";
+templates.style.alignItems = "center";
+templates.style.marginTop="80px";// Ensures vertical centering
+templates.style.width = "100%"; 
+
+}
+
+
+function fun(x)
+{
+    window.location.href= 'detail_form.html'
+    localStorage.setItem('resumeid', JSON.stringify(x));
+}
+
+
+const userDropdown = document.querySelector(".user-dropdown");
+const dropdownLogout = document.querySelector(".dropdown-logout");
+
+userDropdown.addEventListener("mouseenter", () => {
+    dropdownLogout.style.display = "flex";
+});
+
+userDropdown.addEventListener("mouseleave", () => {
+    dropdownLogout.style.display = "none";
+});
+
+
+var logindataemail = ''
+const x = JSON.parse(localStorage.getItem('userlogindata'));
+
+if (x && x.length > 0) 
+{
+    logindataemail =x[0].email;
+}
+
+document.addEventListener("DOMContentLoaded", () => {
+      const form = document.getElementById("ratingform");
+  
+      form.addEventListener("submit", async (e) => {
+        e.preventDefault();
+    
+        const selected = form.querySelector('input[name="emoji"]:checked');
+      
+        const parentLabel = selected.closest(".emoji-option");  
+        const selectedImg = selected?.nextElementSibling;
+        const span = parentLabel.querySelector(".react");
+
+        console.log(selectedImg)
+
+        const data = 
+        {
+             email: logindataemail,
+             photo: selectedImg?.getAttribute('src'),
+             reaction: span ? span.textContent.trim() : "",
+        };
+       
+        
+        try {
+          const res = await fetch("http://localhost:8861/feeling", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(data),
+          });
+  
+          const result = await res.json();
+          alert(result.message);
+          window.location.href="index2.html";
+        } catch (err)
+         {
+          alert("Error submitting the form.");
+          console.error(err);
+         }
+      });
+    });
+
+</script>
+</html>
+
+
