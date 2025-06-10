@@ -188,7 +188,7 @@ app.delete("/deletequery/:id", async (req, res) => {
   });
 
   
-  app.get("/allresume", async (req, res) => {
+  app.get("/allresume2", async (req, res) => {
     try {
       const resumes = await uData.find(); 
       res.json(resumes); 
