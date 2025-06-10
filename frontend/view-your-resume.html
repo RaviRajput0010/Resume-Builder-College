@@ -92,7 +92,7 @@
   try {
     const email = (localStorage.getItem('loggedInEmail') || '').toLowerCase().trim();
 
-    const res = await fetch("https://online-resume-builder-application.onrender.com/allresume"); 
+    const res = await fetch("https://resume-builder-college.onrender.com/allresume"); 
     const data = await res.json();
 
     const tbody = document.getElementById('resumetable').querySelector('tbody');
@@ -146,7 +146,7 @@
     async function deleteUser(id) {
       if (confirm("Are you sure you want to delete this Resume?")) {
         try {
-          const res = await fetch(`https://online-resume-builder-application.onrender.com/deleteresume/${id}`, {
+          const res = await fetch(`https://resume-builder-college.onrender.com/deleteresume/${id}`, {
             method: "DELETE"
           });
           const result = await res.json();
