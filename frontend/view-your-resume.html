@@ -92,7 +92,7 @@
   try {
     const email = (localStorage.getItem('loggedInEmail') || '').toLowerCase().trim();
 
-    const res = await fetch("https://resume-builder-college.onrender.com/allresume"); 
+    const res = await fetch("https://resume-builder-college.onrender.com/allresume2"); 
     const data = await res.json();
 
     const tbody = document.getElementById('resumetable').querySelector('tbody');
