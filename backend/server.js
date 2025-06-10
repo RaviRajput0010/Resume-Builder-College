@@ -147,7 +147,7 @@ app.delete("/deleteuser/:id", async (req, res) => {
   });
   
 
-  app.get('/allquery', async (req, res) => {
+  app.get('/allquery2', async (req, res) => {
     try 
     {
         const allquery = await qform.find(); // `rform` is your mongoose model
